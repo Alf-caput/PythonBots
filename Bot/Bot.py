@@ -1,8 +1,10 @@
 import math
 import time
+
 from States import *
 from Useful import *
 from Controllers import *
+
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
 
@@ -49,7 +51,6 @@ class Gosling(BaseAgent):
         else:
             self.state = exampleATBA()
         
-        
-
+        self.controller_state = self.state
 
 

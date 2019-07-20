@@ -2,10 +2,9 @@ import math
 import time
 from States import *
 from Useful import *
-
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 
-def exampleController(agent,state,target_object,target_speed): #target_object es un objeto tipo obj 
+def exampleController(agent,target_object,target_speed): #target_object es un objeto tipo obj 
         
         location = target_object.local_location
         controller_state = SimpleControllerState()
@@ -13,7 +12,7 @@ def exampleController(agent,state,target_object,target_speed): #target_object es
         
         draw_debug(agent.renderer,target_object.location.data)
         
-        current_speed = velocity2D(self.me)
+        current_speed = velocity2D(agent.me)
         #steering
         if abs(angle_to_target)<math.pi/4:
             controller_state.boost = True
@@ -54,3 +53,6 @@ def draw_debug(renderer, target):
     renderer.begin_rendering()
     renderer.draw_rect_3d(target, 10, 10, True, renderer.red())
     renderer.end_rendering()
+
+def velocity2D(target_object):
+    return math.sqrt(target_object.velocity.data[0]**2 + target_object.velocity.data[1]**2)
