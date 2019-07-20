@@ -1,6 +1,7 @@
 import math
 import time
 from States import *
+from Controllers import *
 
 from rlbot.agents.base_agent import BaseAgent, SimpleControllerState
 from rlbot.utils.structures.game_data_struct import GameTickPacket
@@ -55,10 +56,7 @@ def distance2D(target_object, our_object):
         difference = target_object.location - our_object.location
     return math.sqrt(difference.data[0]**2 + difference.data[1]**2)
     
-def draw_debug(renderer, target):
-    renderer.begin_rendering()
-    renderer.draw_rect_3d(target, 10, 10, True, renderer.red())
-    renderer.end_rendering()
+
 def sign(x):
     if x<=0:
         return -1
