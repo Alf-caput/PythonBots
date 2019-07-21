@@ -32,4 +32,4 @@ class Rush:
         target_object = agent.enemy_goal
         target_speed = 1000
         
-        return ShotController(agent,target_object, target_speed)
+        return RushController(agent,target_object, target_speed)
