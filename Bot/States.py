@@ -14,6 +14,16 @@ class exampleATBA:
                 
         return exampleController(agent,target_object, target_speed)
         
+'''class Rush:
+    def __init__(self):
+        self.expired = False
+
+    def execute(self, agent):
+        target_object = agent.enemy_goal
+        target_speed = 1000
+        
+        return exampleController(agent,target_object, target_speed)'''
+        
 class Rush:
     def __init__(self):
         self.expired = False
@@ -22,4 +32,4 @@ class Rush:
         target_object = agent.enemy_goal
         target_speed = 1000
         
-        return exampleController(agent,target_object, target_speed)
+        return ShotController(agent,target_object, target_speed)

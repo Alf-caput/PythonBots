@@ -46,10 +46,10 @@ class Gosling(BaseAgent):
         self.enemy_goal.location.data = [0,-sign(game.game_cars[self.index].team)*5120,0]
         self.enemy_goal.local_location.data = to_local(self.enemy_goal,self.me)
         
-        if distance2D(self.ball,self.me)<200:
-            self.state = Rush()
-        else:
+        if distance2D(self.ball,self.me)>200:
             self.state = exampleATBA()
+        else:
+            self.state = Rush()
         
         self.controller_state = self.state
 
