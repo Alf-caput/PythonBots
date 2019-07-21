@@ -59,9 +59,13 @@ def distance2D(target_object, our_object):
         difference = target_object.location - our_object.location
     return math.sqrt(difference.data[0]**2 + difference.data[1]**2)
     
-
 def sign(x):
     if x<=0:
         return -1
     else:
         return 1
+def scalarprod2D(v1,v2):
+    return v1[0]*v2[0]+v1[1]*v2[1]
+
+def norm_vec(v):
+    return math.sqrt( v[0]**2 + v[1]**2 )
