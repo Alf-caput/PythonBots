@@ -10,7 +10,7 @@ from rlbot.utils.structures.game_data_struct import GameTickPacket
 
 
 
-class Gosling(BaseAgent):
+class Bot(BaseAgent):
 
     def initialize_agent(self):
         self.me = obj()
@@ -35,6 +35,7 @@ class Gosling(BaseAgent):
         self.me.rvelocity.data = [game.game_cars[self.index].physics.angular_velocity.x,game.game_cars[self.index].physics.angular_velocity.y,game.game_cars[self.index].physics.angular_velocity.z]
         self.me.matrix = rotator_to_matrix(self.me)
         self.me.boost = game.game_cars[self.index].boost
+        self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
         
         self.ball.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y,game.game_ball.physics.location.z]
         self.ball.velocity.data = [game.game_ball.physics.velocity.x,game.game_ball.physics.velocity.y,game.game_ball.physics.velocity.z]

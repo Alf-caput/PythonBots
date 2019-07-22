@@ -64,14 +64,4 @@ def sign(x):
         return -1
     else:
         return 1
-def scalarprod2D(v1,v2):
-    return v1[0]*v2[0]+v1[1]*v2[1]
-
-def norm_vec(v):
-    return math.sqrt( v[0]**2 + v[1]**2 )
     
-def transform_to_pi_pi(angle):
-    if angle >= 0 and angle <= math.pi:
-        return angle
-    else: 
-        return angle -2*math.pi
