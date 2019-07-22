@@ -58,9 +58,9 @@ def RushController(agent,target_object,target_speed): #target_object es un objet
         test1 = car_velocity[0] ** 2 + (target_object.location.data[0]-agent.me.location.data[0]) ** 2
         test2 = car_velocity[1] ** 2 + (target_object.location.data[1]-agent.me.location.data[1]) ** 2
         if test1>0 and test2>0:
-            BotFrontVel = math.acos((car_velocity[0]*(target_object.location.data[0]-agent.me.location.data[0])+car_velocity[1]*(target_object.location.data[1]-agent.me.location.data[1]))/ (math.sqrt(car_velocity[0] ** 2 + (target_object.location.data[0]-agent.me.location.data[0]) ** 2) * math.sqrt(car_velocity[1] ** 2 + (target_object.location.data[1]-agent.me.location.data[1]) ** 2)))
+            BotFrontVel = transform_to_pi_pi(math.acos((car_velocity[0]*(target_object.location.data[0]-agent.me.location.data[0])+car_velocity[1]*(target_object.location.data[1]-agent.me.location.data[1]))/ (math.sqrt(car_velocity[0] ** 2 + (target_object.location.data[0]-agent.me.location.data[0]) ** 2) * math.sqrt(car_velocity[1] ** 2 + (target_object.location.data[1]-agent.me.location.data[1]) ** 2))))
         else:
-            BotFrontVel=math.cos((car_velocity[0]*(target_object.location.data[0]-agent.me.location.data[0])+car_velocity[1]*(target_object.location.data[1]-agent.me.location.data[1]))/0.1)
+            BotFrontVel=transform_to_pi_pi(math.cos((car_velocity[0]*(target_object.location.data[0]-agent.me.location.data[0])+car_velocity[1]*(target_object.location.data[1]-agent.me.location.data[1]))/0.1))
         #anglevelocity_to_target2D = math.acos(scalarprod2D(car_velocity,location_list)/(norm_vec(car_velocity)*norm_vec(location_list)))
         draw_debug(agent.renderer,target_object.location.data)
         
