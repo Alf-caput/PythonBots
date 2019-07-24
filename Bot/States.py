@@ -12,17 +12,17 @@ class exampleATBA:
         target_object = agent.ball
         target_speed = velocity2D(agent.ball) + (distance2D(agent.ball,agent.me)/1.5)
                 
-        return exampleController(agent,target_object, target_speed)
+        return exampleController(agent,target_object)
         
-'''class Rush:
+class CeilingRush:
     def __init__(self):
         self.expired = False
 
     def execute(self, agent):
-        target_object = agent.enemy_goal
-        target_speed = 1000
+        target_object1 = agent.pointA
+        target_object2 = agent.pointB
         
-        return exampleController(agent,target_object, target_speed)'''
+        return CeilingRushController(agent,target_object1,target_object2)
         
 class Rush:
     def __init__(self):
@@ -30,6 +30,5 @@ class Rush:
 
     def execute(self, agent):
         target_object = agent.enemy_goal
-        target_speed = 1000
         
-        return RushController(agent,target_object, target_speed)
+        return RushController(agent,target_object)

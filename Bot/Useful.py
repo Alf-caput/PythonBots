@@ -27,6 +27,7 @@ class obj:
         
         self.local_location = Vector3([0,0,0])
         self.boost = 0
+        self.team = 0
 #
 def to_local(target_object,our_object):
     x = (target_object.location - our_object.location) * our_object.matrix[0]

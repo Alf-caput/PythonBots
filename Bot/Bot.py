@@ -16,6 +16,8 @@ class Bot(BaseAgent):
         self.me = obj()
         self.ball = obj()
         self.enemy_goal = obj()
+        self.pointA = obj()
+        self.pointB = obj()
         self.start = time.time()
         #self.state = exampleATBA()
         
@@ -36,6 +38,7 @@ class Bot(BaseAgent):
         self.me.matrix = rotator_to_matrix(self.me)
         self.me.boost = game.game_cars[self.index].boost
         self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
+        self.me.team = game.game_cars[self.index].team
         
         self.ball.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y,game.game_ball.physics.location.z]
         self.ball.velocity.data = [game.game_ball.physics.velocity.x,game.game_ball.physics.velocity.y,game.game_ball.physics.velocity.z]
@@ -47,8 +50,16 @@ class Bot(BaseAgent):
         self.enemy_goal.location.data = [0,-sign(game.game_cars[self.index].team)*5120,0]
         self.enemy_goal.local_location.data = to_local(self.enemy_goal,self.me)
         
+        self.pointA.location.data = [sign(self.me.location.data[0])*4096,-sign(self.me.team)*400,2000]
+        self.pointA.local_location.data = to_local(self.pointA,self.me)
+        
+        self.pointB.location.data = [sign(self.me.location.data[0])*4096,-sign(self.me.team)*1000,2000]
+        self.pointB.local_location.data = to_local(self.pointB,self.me)
+        
         if distance2D(self.ball,self.me)>200:
             self.state = exampleATBA()
+        elif self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and self.me.location.data[1]<300:# and self.me.has_wheel_contact:
+            self.state = CeilingRush()
         else:
             self.state = Rush()
         
