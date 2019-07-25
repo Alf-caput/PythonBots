@@ -42,9 +42,8 @@ class Bot(BaseAgent):
         self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
         self.me.team = game.game_cars[self.index].team
         
-        alone=True
         
-        for i in range(0,3):
+        for i in range(0,game.num_cars-1):
             if game.game_cars[i].team == self.me.team and i!=self.index:
                 alone=False
                 self.mate.location.data = [game.game_cars[self.index].physics.location.x,game.game_cars[self.index].physics.location.y,game.game_cars[self.index].physics.location.z]
@@ -75,10 +74,8 @@ class Bot(BaseAgent):
         if distance2D(self.ball,self.me)>200:
             if distance2D(self.ball,self.me)<distance2D(self.ball,self.mate)+1000:
                 self.state = exampleATBA()
-            elif alone==False:
-                self.state = Wait()
             else:
-                self.state = exampleATBA()
+                self.state = Wait()
         elif self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and self.me.location.data[1]<sign(self.me.team)*300 and abs(self.me.location.data[0])>2000:# and self.me.has_wheel_contact:
             self.state = CeilingRush()
         else:
