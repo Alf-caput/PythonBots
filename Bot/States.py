@@ -32,3 +32,13 @@ class Rush:
         target_object = agent.enemy_goal
         
         return RushController(agent,target_object)
+
+class Wait:
+    def __init__(self):
+        self.expired = False
+
+    def execute(self, agent):
+        target_object = agent.ball_shadow
+        target_speed = velocity2D(agent.ball) + (distance2D(agent.ball,agent.me)/1.5)
+        
+        return WaitController(agent,target_object,target_speed)

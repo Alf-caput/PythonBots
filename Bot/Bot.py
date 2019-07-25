@@ -14,7 +14,9 @@ class Bot(BaseAgent):
 
     def initialize_agent(self):
         self.me = obj()
+        self.mate = obj()
         self.ball = obj()
+        self.ball_shadow = obj()
         self.enemy_goal = obj()
         self.pointA = obj()
         self.pointB = obj()
@@ -40,12 +42,26 @@ class Bot(BaseAgent):
         self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
         self.me.team = game.game_cars[self.index].team
         
+        alone=True
+        
+        for i in range(0,3):
+            if game.game_cars[i].team == self.me.team and i!=self.index:
+                alone=False
+                self.mate.location.data = [game.game_cars[self.index].physics.location.x,game.game_cars[self.index].physics.location.y,game.game_cars[self.index].physics.location.z]
+            else:
+                alone=True
+            
+        
         self.ball.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y,game.game_ball.physics.location.z]
         self.ball.velocity.data = [game.game_ball.physics.velocity.x,game.game_ball.physics.velocity.y,game.game_ball.physics.velocity.z]
         self.ball.rotation.data = [game.game_ball.physics.rotation.pitch,game.game_ball.physics.rotation.yaw,game.game_ball.physics.rotation.roll]
         self.ball.rvelocity.data = [game.game_ball.physics.angular_velocity.x,game.game_ball.physics.angular_velocity.y,game.game_ball.physics.angular_velocity.z]
 
         self.ball.local_location.data = to_local(self.ball,self.me)
+        
+        self.ball_shadow.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y + sign(self.me.team)*3000,game.game_ball.physics.location.z]
+
+        self.ball_shadow.local_location.data = to_local(self.ball_shadow,self.me)
         
         self.enemy_goal.location.data = [0,-sign(game.game_cars[self.index].team)*5120,0]
         self.enemy_goal.local_location.data = to_local(self.enemy_goal,self.me)
@@ -57,8 +73,13 @@ class Bot(BaseAgent):
         self.pointB.local_location.data = to_local(self.pointB,self.me)
         
         if distance2D(self.ball,self.me)>200:
-            self.state = exampleATBA()
-        elif self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and self.me.location.data[1]<300:# and self.me.has_wheel_contact:
+            if distance2D(self.ball,self.me)<distance2D(self.ball,self.mate)+1000:
+                self.state = exampleATBA()
+            elif alone==False:
+                self.state = Wait()
+            else:
+                self.state = exampleATBA()
+        elif self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and self.me.location.data[1]<sign(self.me.team)*300 and abs(self.me.location.data[0])>2000:# and self.me.has_wheel_contact:
             self.state = CeilingRush()
         else:
             self.state = Rush()

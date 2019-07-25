@@ -1,9 +1,12 @@
 import math
 
 
-def draw_debug(renderer, target):
+def draw_debug(agent,renderer, target):
     renderer.begin_rendering()
-    renderer.draw_rect_3d(target, 10, 10, True, renderer.red())
+    if agent.me.team==0:
+        renderer.draw_rect_3d(target, 10, 10, True, renderer.blue())
+    else:
+        renderer.draw_rect_3d(target, 10, 10, True, renderer.red())
     renderer.end_rendering()
 
 def velocity2D(target_object):

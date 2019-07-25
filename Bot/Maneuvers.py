@@ -21,7 +21,7 @@ def dodging(agent,target_object,controller_state,angle_to_target):
     return controller_state
 def shot(agent,target_object,controller_state,angle_to_target):
     #shot
-    if abs(angle_to_target) < math.pi/3 and agent.ball.local_location.data[1]>-50 :
+    if abs(angle_to_target) < math.pi/3 and agent.ball.local_location.data[1]>-100 :
         controller_state.jump = False
         time_difference = time.time() - agent.start
         if time_difference > 2.2 and abs(angle_to_target) < 1.3:
