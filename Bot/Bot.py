@@ -41,22 +41,30 @@ class Bot(BaseAgent):
         self.me.boost = game.game_cars[self.index].boost
         self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
         self.me.team = game.game_cars[self.index].team
+        
         for i in range(0,game.num_cars):
             if game.game_cars[i].team == self.me.team and i!=self.index:
-                alone=False
                 self.mate.location.data = [game.game_cars[i].physics.location.x,game.game_cars[i].physics.location.y,game.game_cars[i].physics.location.z]
                 self.mate.local_location.data = to_local(self.mate,self.me)
                 break
             else:
-                alone=True
                 self.mate.location.data = [9999,9999,9999]
         
         self.ball.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y,game.game_ball.physics.location.z]
         self.ball.velocity.data = [game.game_ball.physics.velocity.x,game.game_ball.physics.velocity.y,game.game_ball.physics.velocity.z]
         self.ball.rotation.data = [game.game_ball.physics.rotation.pitch,game.game_ball.physics.rotation.yaw,game.game_ball.physics.rotation.roll]
         self.ball.rvelocity.data = [game.game_ball.physics.angular_velocity.x,game.game_ball.physics.angular_velocity.y,game.game_ball.physics.angular_velocity.z]
-
         self.ball.local_location.data = to_local(self.ball,self.me)
+        
+        '''ball_prediction = self.get_ball_prediction_struct()
+
+        if ball_prediction is not None:
+            for i in range(0, ball_prediction.num_slices):
+                prediction_slice = ball_prediction.slices[i]
+                location = prediction_slice.physics.location
+                self.logger.info("At time {}, the ball will be at ({}, {}, {})"
+                                 .format(prediction_slice.game_seconds, location.x, location.y, location.z))'''
+        
         
         self.ball_shadow.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y + sign(self.me.team)*3000,game.game_ball.physics.location.z]
 
@@ -72,7 +80,7 @@ class Bot(BaseAgent):
         self.pointB.local_location.data = to_local(self.pointB,self.me)
         
         if distance2D(self.ball,self.me)>200:
-            if distance2D(self.ball,self.mate)>=distance2D(self.ball,self.me) :#or alone==True:#distance2D(self.ball,self.mate)>2000 or alone==True:
+            if distance2D(self.ball,self.mate)>=distance2D(self.ball,self.me) :
                 self.state = exampleATBA()
             else:
                 self.state = Wait()

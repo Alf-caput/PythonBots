@@ -73,7 +73,7 @@ def RushController(agent,target_object): #target_object es un objeto tipo obj
         #throttle
         controller_state.throttle = 1
         #shot
-        if abs(angle_velocity) < math.pi/2 :
+        if True:#abs(angle_velocity) < math.pi/3:
             shot(agent,target_object,controller_state,angle_to_target)
         
         return controller_state
