@@ -41,15 +41,15 @@ class Bot(BaseAgent):
         self.me.boost = game.game_cars[self.index].boost
         self.me.has_wheel_contact = game.game_cars[self.index].has_wheel_contact
         self.me.team = game.game_cars[self.index].team
-        
-        
-        for i in range(0,game.num_cars-1):
+        for i in range(0,game.num_cars):
             if game.game_cars[i].team == self.me.team and i!=self.index:
                 alone=False
-                self.mate.location.data = [game.game_cars[self.index].physics.location.x,game.game_cars[self.index].physics.location.y,game.game_cars[self.index].physics.location.z]
+                self.mate.location.data = [game.game_cars[i].physics.location.x,game.game_cars[i].physics.location.y,game.game_cars[i].physics.location.z]
+                self.mate.local_location.data = to_local(self.mate,self.me)
+                break
             else:
                 alone=True
-            
+                self.mate.location.data = [9999,9999,9999]
         
         self.ball.location.data = [game.game_ball.physics.location.x,game.game_ball.physics.location.y,game.game_ball.physics.location.z]
         self.ball.velocity.data = [game.game_ball.physics.velocity.x,game.game_ball.physics.velocity.y,game.game_ball.physics.velocity.z]
@@ -65,14 +65,14 @@ class Bot(BaseAgent):
         self.enemy_goal.location.data = [0,-sign(game.game_cars[self.index].team)*5120,0]
         self.enemy_goal.local_location.data = to_local(self.enemy_goal,self.me)
         
-        self.pointA.location.data = [sign(self.me.location.data[0])*4096,-sign(self.me.team)*400,2000]
+        self.pointA.location.data = [4096,-sign(self.me.team)*400,2000]
         self.pointA.local_location.data = to_local(self.pointA,self.me)
         
-        self.pointB.location.data = [sign(self.me.location.data[0])*4096,-sign(self.me.team)*1000,2000]
+        self.pointB.location.data = [4096,sign(self.me.team)*1000,2000]
         self.pointB.local_location.data = to_local(self.pointB,self.me)
         
         if distance2D(self.ball,self.me)>200:
-            if distance2D(self.ball,self.me)<distance2D(self.ball,self.mate)+1000:
+            if distance2D(self.ball,self.mate)>=distance2D(self.ball,self.me) :#or alone==True:#distance2D(self.ball,self.mate)>2000 or alone==True:
                 self.state = exampleATBA()
             else:
                 self.state = Wait()

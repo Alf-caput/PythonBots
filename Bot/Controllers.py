@@ -13,7 +13,7 @@ def exampleController(agent,target_object): #target_object es un objeto tipo obj
         angle_to_target = math.atan2(location.data[1],location.data[0])
         angle_velocity = math.atan2(agent.me.velocity.data[1],agent.me.velocity.data[1])
         #draw_debug(agent.renderer,location.data)
-        
+        draw_debug(agent,agent.renderer,target_object.location.data)
         current_speed = velocity2D(agent.me)
         #steering
         if abs(angle_to_target)<math.pi/4:
@@ -41,7 +41,7 @@ def CeilingRushController(agent,target_object1,target_object2): #target_object e
             target_object = target_object1
             location = agent.pointA.local_location
             angle_to_target = math.atan2(location.data[1],location.data[0])
-        
+        draw_debug(agent,agent.renderer,target_object.location.data)
         angle_velocity = math.atan2(agent.me.velocity.data[1],agent.me.velocity.data[1])
         #draw_debug(agent.renderer,target_object.location.data)
         
@@ -63,7 +63,7 @@ def RushController(agent,target_object): #target_object es un objeto tipo obj
         angle_to_target = math.atan2(location.data[1],location.data[0])
         
         angle_velocity = math.atan2(agent.me.velocity.data[1],agent.me.velocity.data[1])
-        #draw_debug(agent.renderer,target_object.location.data)
+        draw_debug(agent,agent.renderer,target_object.location.data)
         #steering
         if abs(angle_to_target) < math.pi/4:
             controller_state.handbrake = False
@@ -83,7 +83,7 @@ def WaitController(agent,target_object,target_speed):
         controller_state = SimpleControllerState()
         location = target_object.local_location
         angle_to_target = math.atan2(location.data[1],location.data[0])
-        
+        draw_debug(agent,agent.renderer,target_object.location.data)
         if abs(angle_to_target) < math.pi/4:
             controller_state.handbrake = False
         elif abs(angle_to_target) < math.pi and abs(angle_to_target) > math.pi/2:
