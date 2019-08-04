@@ -33,14 +33,17 @@ def exampleController(agent,target_object): #target_object es un objeto tipo obj
 def CeilingRushController(agent,target_object1,target_object2): #target_object es un objeto tipo obj 
         controller_state = SimpleControllerState()
             
-        if distance2D(agent.me,agent.pointA)<distance2D(agent.me,agent.pointB) and agent.me.location.data[2]>2800:
+        '''if distance2D(agent.me,agent.pointA)<distance2D(agent.me,agent.pointB) and agent.me.location.data[2]>2800:
             target_object = target_object2
             location = agent.pointB.local_location
             angle_to_target = math.atan2(location.data[1],location.data[0])
         else:
             target_object = target_object1
             location = agent.pointA.local_location
-            angle_to_target = math.atan2(location.data[1],location.data[0])
+            angle_to_target = math.atan2(location.data[1],location.data[0])'''
+        target_object = target_object1
+        location = agent.pointA.local_location
+        angle_to_target = math.atan2(location.data[1],location.data[0])
         draw_debug(agent,agent.renderer,target_object.location.data)
         angle_velocity = math.atan2(agent.me.velocity.data[1],agent.me.velocity.data[1])
         #draw_debug(agent.renderer,target_object.location.data)
@@ -51,7 +54,10 @@ def CeilingRushController(agent,target_object1,target_object2): #target_object e
             controller_state.handbrake = False
         elif abs(angle_to_target) < math.pi and abs(angle_to_target) > math.pi/2:
             controller_state.handbrake = True
-        controller_state.steer = sign(angle_to_target)*min(1,abs(2*angle_to_target))
+        if agent.me.location.data[2]<1800:
+            controller_state.steer = sign(angle_to_target)*min(1,abs(2*angle_to_target))
+        else:
+            controller_state.steer = 0
         #throttle
         controller_state.throttle = 1
         

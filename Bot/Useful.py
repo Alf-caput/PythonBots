@@ -62,6 +62,13 @@ def distance2D(target_object, our_object):
     else:
         difference = target_object.location - our_object.location
     return math.sqrt(difference.data[0]**2 + difference.data[1]**2)
+
+def distance3D(target_object, our_object):
+    if isinstance(target_object,Vector3):
+        difference = target_object - our_object
+    else:
+        difference = target_object.location - our_object.location
+    return math.sqrt(difference.data[0]**2 + difference.data[1]**2 + difference.data[2]**2)
     
 def sign(x):
     if x<=0:

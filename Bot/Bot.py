@@ -18,6 +18,7 @@ class Bot(BaseAgent):
         self.ball = obj()
         self.ball_shadow = obj()
         self.enemy_goal = obj()
+        self.our_goal = obj()
         self.pointA = obj()
         self.pointB = obj()
         self.start = time.time()
@@ -73,18 +74,35 @@ class Bot(BaseAgent):
         self.enemy_goal.location.data = [0,-sign(game.game_cars[self.index].team)*5120,0]
         self.enemy_goal.local_location.data = to_local(self.enemy_goal,self.me)
         
-        self.pointA.location.data = [4096,-sign(self.me.team)*400,2000]
-        self.pointA.local_location.data = to_local(self.pointA,self.me)
+        self.our_goal.location.data = [0,sign(game.game_cars[self.index].team)*5120,0]
+        self.our_goal.local_location.data = to_local(self.our_goal,self.me)
         
-        self.pointB.location.data = [4096,sign(self.me.team)*1000,2000]
-        self.pointB.local_location.data = to_local(self.pointB,self.me)
+        if self.me.location.data[0]>=0:
+            self.pointA.location.data = [4000,-sign(self.me.team)*(min(200+self.me.location.data[2],400)),2000]
+            self.pointA.local_location.data = to_local(self.pointA,self.me)
+            
+            self.pointB.location.data = [4000,-sign(self.me.team)*1000,2000]
+            self.pointB.local_location.data = to_local(self.pointB,self.me)
+        else:
+            self.pointA.location.data = [-4000,-sign(self.me.team)*max(-200-self.me.location.data[2],-400),2000]
+            self.pointA.local_location.data = to_local(self.pointA,self.me)
+            
+            self.pointB.location.data = [-4000,-sign(self.me.team)*1000,2000]
+            self.pointB.local_location.data = to_local(self.pointB,self.me)
+            
+        if (self.me.team==1 and self.me.location.data[1]>-400 and self.me.location.data[1]<2500)or(self.me.team==0 and self.me.location.data[1]<400 and self.me.location.data[1]>-2500):
+            flag=True
+        else:
+            flag=False
+            
+            
         
         if distance2D(self.ball,self.me)>200:
-            if distance2D(self.ball,self.mate)>=distance2D(self.ball,self.me) :
+            if distance2D(self.ball,self.mate)>=distance2D(self.ball,self.me) or distance2D(self.me,self.our_goal)<1500:
                 self.state = exampleATBA()
             else:
                 self.state = Wait()
-        elif self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and self.me.location.data[1]<sign(self.me.team)*300 and abs(self.me.location.data[0])>2000:# and self.me.has_wheel_contact:
+        elif flag and self.me.has_wheel_contact and distance2D(self.me,self.pointA)<distance2D(self.me,self.enemy_goal) and abs(self.me.location.data[0])>2000:#self.me.location.data[1]<sign(self.me.team)*300 and abs(self.me.location.data[0])>2000:# and self.me.has_wheel_contact:
             self.state = CeilingRush()
         else:
             self.state = Rush()
